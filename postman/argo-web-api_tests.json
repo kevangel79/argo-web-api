@@ -6,393 +6,2795 @@
 	},
 	"item": [
 		{
-			"name": "test version",
-			"event": [
+			"name": "tenants",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "e783b1c8-d2da-4ed9-95bf-73b4ecdc3662",
-						"exec": [
-							"",
-							"pm.test(\"Verify version\", function () {",
-							"    let jsonData = pm.response.json();",
-							"    let commit = pm.environment.get(\"last_commit\");",
-							"    pm.expect(jsonData.commit).to.eql(commit);",
-							"});",
-							"",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "x-api-key",
-						"value": "{{api_key}}",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{api_host}}/api/v2/version?",
-					"protocol": "https",
-					"host": [
-						"{{api_host}}"
-					],
-					"path": [
-						"api",
-						"v2",
-						"version"
-					],
-					"query": [
+					"name": "list tenants",
+					"event": [
 						{
-							"key": "Accept",
-							"value": "application/json",
-							"disabled": true
+							"listen": "test",
+							"script": {
+								"id": "f65f4d0e-0e13-454a-94b3-c08b449a184f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/admin/tenants?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"admin",
+								"tenants"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								},
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						},
+						"description": "test web api\t"
+					},
+					"response": []
 				},
-				"description": "test web api\t"
-			},
-			"response": []
+				{
+					"name": "create new tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a2396416-44ef-443c-87bb-86c09696cded",
+								"exec": [
+									"",
+									"pm.test(\"Get tenant uuid\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"tenant_uuid\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"website\": \"foo.example.com\",\n    \"description\": \"a test tenant\",\n    \"image\": \"string\",\n    \"email\": \"info@foo.example.com\",\n    \"name\": \"FOO\"\n  },\n  \"topology\": {\n    \"feed\": \"string\",\n    \"type\": \"string\"\n  },\n  \"db_conf\": [\n    {\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"port\": 0,\n      \"store\": \"string\",\n      \"server\": \"string\"\n    }\n  ],\n  \"users\": [\n    {\n      \"name\": \"test-admin\",\n      \"api-key\": \"foo.test.secret.key\",\n      \"roles\": [\n        \"admin\"\n      ],\n      \"email\": \"foo@example.com\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/admin/tenants?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"admin",
+								"tenants"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								},
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get a specific tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa6a71d7-f1f5-45fc-9dc9-bda8cf4c42d3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"admin",
+								"tenants",
+								"{{tenant_uuid}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								},
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						},
+						"description": "test web api\t"
+					},
+					"response": []
+				},
+				{
+					"name": "update specific tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46e43ff0-fc9f-431a-acdd-500e0a2b4b3b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"admin",
+								"tenants",
+								"{{tenant_uuid}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								},
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						},
+						"description": "test web api\t"
+					},
+					"response": []
+				},
+				{
+					"name": "delete specific tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b7ef416-1042-41e4-9f6b-1914e7d8c732",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"admin",
+								"tenants",
+								"{{tenant_uuid}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								},
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						},
+						"description": "test web api\t"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "list tenants",
-			"event": [
+			"name": "reports",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "f65f4d0e-0e13-454a-94b3-c08b449a184f",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{api_key}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{api_host}}/api/v2/admin/tenants?",
-					"protocol": "https",
-					"host": [
-						"{{api_host}}"
-					],
-					"path": [
-						"api",
-						"v2",
-						"admin",
-						"tenants"
-					],
-					"query": [
+					"name": "get reports",
+					"event": [
 						{
-							"key": "Accept",
-							"value": "application/json",
-							"disabled": true
-						},
-						{
-							"key": "x-api-key",
-							"value": "{{api_key}}",
-							"disabled": true
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/reports?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				},
-				"description": "test web api\t"
-			},
-			"response": []
+				{
+					"name": "create new report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/reports?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/reports/{{report_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"reports",
+								"{{report_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/reports/{{report_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"reports",
+								"{{report_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/reports/{{report_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"reports",
+								"{{report_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "create new tenant",
-			"event": [
+			"name": "operations profiles",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "a2396416-44ef-443c-87bb-86c09696cded",
-						"exec": [
-							"",
-							"pm.test(\"Get tenant uuid\", function () {",
-							"    let jsonData = pm.response.json();",
-							"    pm.environment.set(\"tenant_uuid\",jsonData.data.id);",
-							"});",
-							"",
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{api_key}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"info\": {\n    \"website\": \"foo.example.com\",\n    \"description\": \"a test tenant\",\n    \"image\": \"string\",\n    \"email\": \"info@foo.example.com\",\n    \"name\": \"FOO\"\n  },\n  \"topology\": {\n    \"feed\": \"string\",\n    \"type\": \"string\"\n  },\n  \"db_conf\": [\n    {\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"port\": 0,\n      \"store\": \"string\",\n      \"server\": \"string\"\n    }\n  ],\n  \"users\": [\n    {\n      \"name\": \"test-admin\",\n      \"api-key\": \"foo.test.secret.key\",\n      \"roles\": [\n        \"admin\"\n      ],\n      \"email\": \"foo@example.com\"\n    }\n  ]\n}"
-				},
-				"url": {
-					"raw": "https://{{api_host}}/api/v2/admin/tenants?",
-					"protocol": "https",
-					"host": [
-						"{{api_host}}"
-					],
-					"path": [
-						"api",
-						"v2",
-						"admin",
-						"tenants"
-					],
-					"query": [
+					"name": "get operations profiles",
+					"event": [
 						{
-							"key": "Accept",
-							"value": "application/json",
-							"disabled": true
-						},
-						{
-							"key": "x-api-key",
-							"value": "{{api_key}}",
-							"disabled": true
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/operations_profiles?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"operations_profiles"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new operations profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/operations_profiles?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"operations_profiles"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific operations profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/operations_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"operations_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update operations profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/operations_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"operations_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete operations profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/operations_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"operations_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "get a specific tenant",
-			"event": [
+			"name": "aggregation profiles",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "fa6a71d7-f1f5-45fc-9dc9-bda8cf4c42d3",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{api_key}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
-					"protocol": "https",
-					"host": [
-						"{{api_host}}"
-					],
-					"path": [
-						"api",
-						"v2",
-						"admin",
-						"tenants",
-						"{{tenant_uuid}}"
-					],
-					"query": [
+					"name": "get aggregation profiles",
+					"event": [
 						{
-							"key": "Accept",
-							"value": "application/json",
-							"disabled": true
-						},
-						{
-							"key": "x-api-key",
-							"value": "{{api_key}}",
-							"disabled": true
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/aggregation_profiles?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"aggregation_profiles"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				},
-				"description": "test web api\t"
-			},
-			"response": []
+				{
+					"name": "create new aggregation profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/aggregation_profiles?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"aggregation_profiles"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific aggregation profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/aggregation_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"aggregation_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update aggregation profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/aggregation_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"aggregation_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete aggregation profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/aggregation_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"aggregation_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "update specific tenant",
-			"event": [
+			"name": "metric profiles",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "46e43ff0-fc9f-431a-acdd-500e0a2b4b3b",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{api_key}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
-					"protocol": "https",
-					"host": [
-						"{{api_host}}"
-					],
-					"path": [
-						"api",
-						"v2",
-						"admin",
-						"tenants",
-						"{{tenant_uuid}}"
-					],
-					"query": [
+					"name": "get metric profiles",
+					"event": [
 						{
-							"key": "Accept",
-							"value": "application/json",
-							"disabled": true
-						},
-						{
-							"key": "x-api-key",
-							"value": "{{api_key}}",
-							"disabled": true
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/metric_profiles?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metric_profiles"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				},
-				"description": "test web api\t"
-			},
-			"response": []
+				{
+					"name": "create new metric profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/metric_profiles?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metric_profiles"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific metric profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/metric_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metric_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update metric profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/metric_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metric_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete metric profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/metric_profiles/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metric_profiles",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "delete specific tenant",
-			"event": [
+			"name": "weights",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "4b7ef416-1042-41e4-9f6b-1914e7d8c732",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "x-api-key",
-						"type": "text",
-						"value": "{{api_key}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
-					"protocol": "https",
-					"host": [
-						"{{api_host}}"
-					],
-					"path": [
-						"api",
-						"v2",
-						"admin",
-						"tenants",
-						"{{tenant_uuid}}"
-					],
-					"query": [
+					"name": "get weights",
+					"event": [
 						{
-							"key": "Accept",
-							"value": "application/json",
-							"disabled": true
-						},
-						{
-							"key": "x-api-key",
-							"value": "{{api_key}}",
-							"disabled": true
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/weights?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"weights"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				},
-				"description": "test web api\t"
-			},
-			"response": []
+				{
+					"name": "create new weights resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/weights?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"weights"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific weight",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/weights/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"weights",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update weight",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/weights/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"weights",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete weight",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/weights/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"weights",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "downtimes",
+			"item": [
+				{
+					"name": "get downtimes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/downtimes?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"downtimes"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new downtimes resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/downtimes?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"downtimes"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific downtime",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/downtimes/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"downtimes",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update downtime",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/downtimes/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"downtimes",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete downtime",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/downtimes/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"downtimes",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "thresholds",
+			"item": [
+				{
+					"name": "get thresholds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/thresholds?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"thresholds"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new threshold",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/thresholds?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"thresholds"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific threshold",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/thresholds/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"thresholds",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update thresholds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/thresholds/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"thresholds",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete thresholds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/thresholds/{{profile_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"thresholds",
+								"{{profile_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "recomputations",
+			"item": [
+				{
+					"name": "get recomputations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/recomputations?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"recomputations"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new recomputation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/recomputations?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"recomputations"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific recomputation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/recomputations/{{recomputation_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"recomputations",
+								"{{recomputation_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change recomputation status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/recomputations/{{recomputation_id}}/status?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"recomputations",
+								"{{recomputation_id}}",
+								"status"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete recomputation status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/recomputations/{{recomputation_id}}/status?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"recomputations",
+								"{{recomputation_id}}",
+								"status"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete recomputation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{api_key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/recomputations/{{recomputation_id}}?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"recomputations",
+								"{{recomputation_id}}"
+							],
+							"query": [
+								{
+									"key": "x-api-key",
+									"value": "{{api_key}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "more",
+			"item": [
+				{
+					"name": "factors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/factors?"
+					},
+					"response": []
+				},
+				{
+					"name": "test version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e783b1c8-d2da-4ed9-95bf-73b4ecdc3662",
+								"exec": [
+									"",
+									"pm.test(\"Verify version\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    let commit = pm.environment.get(\"last_commit\");",
+									"    pm.expect(jsonData.commit).to.eql(commit);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{api_host}}/api/v2/version?",
+							"protocol": "https",
+							"host": [
+								"{{api_host}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"version"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "test web api\t"
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
