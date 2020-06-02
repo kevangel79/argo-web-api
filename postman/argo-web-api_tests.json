@@ -79,7 +79,6 @@
 							"script": {
 								"id": "a2396416-44ef-443c-87bb-86c09696cded",
 								"exec": [
-									"",
 									"pm.test(\"Get tenant uuid\", function () {",
 									"    let jsonData = pm.response.json();",
 									"    pm.environment.set(\"tenant_uuid\",jsonData.data.id);",
@@ -221,7 +220,7 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Accept",
@@ -236,7 +235,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n  \"info\": {\n    \"website\": \"foo1.example.com\",\n    \"description\": \"a test tenant\",\n    \"image\": \"string\",\n    \"email\": \"info@foo.example.com\",\n    \"name\": \"FOO\"\n  },\n  \"topology\": {\n    \"feed\": \"string\",\n    \"type\": \"string\"\n  },\n  \"db_conf\": [\n    {\n      \"username\": \"string\",\n      \"password\": \"string\",\n      \"port\": 0,\n      \"store\": \"string\",\n      \"server\": \"string\"\n    }\n  ],\n  \"users\": [\n    {\n      \"name\": \"test-admin\",\n      \"api-key\": \"foo.test.secret.key\",\n      \"roles\": [\n        \"admin\"\n      ],\n      \"email\": \"foo@example.com\"\n    }\n  ]\n}"
 						},
 						"url": {
 							"raw": "https://{{api_host}}/api/v2/admin/tenants/{{tenant_uuid}}?",
@@ -364,8 +363,7 @@
 							{
 								"key": "x-api-key",
 								"value": "{{api_key}}",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
@@ -402,8 +400,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get report id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"report_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -477,8 +480,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -654,8 +656,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -692,8 +693,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get profile id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"profile_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -767,8 +773,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -944,8 +949,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -982,8 +986,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get profile id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"profile_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1057,8 +1066,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -1234,8 +1242,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -1272,8 +1279,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get profile id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"profile_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1347,8 +1359,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -1524,8 +1535,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -1562,8 +1572,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get profile id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"profile_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1637,8 +1652,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -1814,8 +1828,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -1852,8 +1865,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get profile id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"profile_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1927,8 +1945,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -2104,8 +2121,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -2113,7 +2129,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{api_host}}/api/v2/thresholds?",
+							"raw": "https://{{api_host}}/api/v2/thresholds_profiles?",
 							"protocol": "https",
 							"host": [
 								"{{api_host}}"
@@ -2121,7 +2137,7 @@
 							"path": [
 								"api",
 								"v2",
-								"thresholds"
+								"thresholds_profiles"
 							],
 							"query": [
 								{
@@ -2142,8 +2158,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get profile id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"profile_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2169,7 +2190,7 @@
 							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
 						},
 						"url": {
-							"raw": "https://{{api_host}}/api/v2/thresholds?",
+							"raw": "https://{{api_host}}/api/v2/thresholds_profiles?",
 							"protocol": "https",
 							"host": [
 								"{{api_host}}"
@@ -2177,7 +2198,7 @@
 							"path": [
 								"api",
 								"v2",
-								"thresholds"
+								"thresholds_profiles"
 							],
 							"query": [
 								{
@@ -2217,8 +2238,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -2226,7 +2246,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{api_host}}/api/v2/thresholds/{{profile_id}}?",
+							"raw": "https://{{api_host}}/api/v2/thresholds_profiles/{{profile_id}}?",
 							"protocol": "https",
 							"host": [
 								"{{api_host}}"
@@ -2234,7 +2254,7 @@
 							"path": [
 								"api",
 								"v2",
-								"thresholds",
+								"thresholds_profiles",
 								"{{profile_id}}"
 							],
 							"query": [
@@ -2283,7 +2303,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{api_host}}/api/v2/thresholds/{{profile_id}}?",
+							"raw": "https://{{api_host}}/api/v2/thresholds_profiles/{{profile_id}}?",
 							"protocol": "https",
 							"host": [
 								"{{api_host}}"
@@ -2291,7 +2311,7 @@
 							"path": [
 								"api",
 								"v2",
-								"thresholds",
+								"thresholds_profiles",
 								"{{profile_id}}"
 							],
 							"query": [
@@ -2340,7 +2360,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{api_host}}/api/v2/thresholds/{{profile_id}}?",
+							"raw": "https://{{api_host}}/api/v2/thresholds_profiles/{{profile_id}}?",
 							"protocol": "https",
 							"host": [
 								"{{api_host}}"
@@ -2348,7 +2368,7 @@
 							"path": [
 								"api",
 								"v2",
-								"thresholds",
+								"thresholds_profiles",
 								"{{profile_id}}"
 							],
 							"query": [
@@ -2394,8 +2414,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -2432,8 +2451,13 @@
 							"script": {
 								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Get recomputation id\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"recomputation_id\",jsonData.data.id);",
+									"});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2507,8 +2531,7 @@
 							{
 								"key": "x-api-key",
 								"type": "text",
-								"value": "{{api_key}}",
-								"disabled": true
+								"value": "{{api_key}}"
 							}
 						],
 						"body": {
@@ -2526,122 +2549,6 @@
 								"v2",
 								"recomputations",
 								"{{recomputation_id}}"
-							],
-							"query": [
-								{
-									"key": "x-api-key",
-									"value": "{{api_key}}",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "change recomputation status",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "x-api-key",
-								"type": "text",
-								"value": "{{api_key}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"info\": {\n    \"updated\": \"string\",\n    \"description\": \"string\",\n    \"name\": \"string\",\n    \"created\": \"string\"\n  },\n  \"filter_tags\": [\n    {\n      \"value\": \"string\",\n      \"name\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"weight\": \"string\",\n  \"thresholds\": {\n    \"unknown\": 0,\n    \"uptime\": 0,\n    \"reliability\": 0,\n    \"availability\": 0,\n    \"downtime\": 0\n  },\n  \"profiles\": [\n    {\n      \"type\": \"string\",\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"disabled\": \"string\",\n  \"topology_schema\": {\n    \"group\": {\n      \"type\": \"string\",\n      \"group\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"id\": \"string\",\n  \"tenant\": \"string\"\n}"
-						},
-						"url": {
-							"raw": "https://{{api_host}}/api/v2/recomputations/{{recomputation_id}}/status?",
-							"protocol": "https",
-							"host": [
-								"{{api_host}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"recomputations",
-								"{{recomputation_id}}",
-								"status"
-							],
-							"query": [
-								{
-									"key": "x-api-key",
-									"value": "{{api_key}}",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete recomputation status",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "eaf30786-3f42-4cff-9420-5bffbe887b6e",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "x-api-key",
-								"type": "text",
-								"value": "{{api_key}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://{{api_host}}/api/v2/recomputations/{{recomputation_id}}/status?",
-							"protocol": "https",
-							"host": [
-								"{{api_host}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"recomputations",
-								"{{recomputation_id}}",
-								"status"
 							],
 							"query": [
 								{
@@ -2708,6 +2615,155 @@
 								}
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "topology",
+			"item": [
+				{
+					"name": "list topologies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/topology/endpoints?"
+					},
+					"response": []
+				},
+				{
+					"name": "create new topology",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/topology/endpoints"
+					},
+					"response": []
+				},
+				{
+					"name": "delete topology by date",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/topology/endpoints"
+					},
+					"response": []
+				},
+				{
+					"name": "list topologies group",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/topology/endpoints?"
+					},
+					"response": []
+				},
+				{
+					"name": "create new topology group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/topology/endpoints"
+					},
+					"response": []
+				},
+				{
+					"name": "delete topology group by date",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://{{api_host}}/api/v2/topology/endpoints"
 					},
 					"response": []
 				}
